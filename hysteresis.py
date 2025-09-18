@@ -1,9 +1,8 @@
-from experimental_data import *
-
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy
 from scipy.interpolate import make_interp_spline
+
 
 
 R = 0.15
@@ -23,11 +22,14 @@ def PlotCycle(name, vars):
         dT = np.array([dTeto] * len(theta))
 
         phi_smooth = np.linspace(min(theta), max(theta), 200)
-        M_smooth = make_interp_spline(theta, M)(phi_smooth)
+        M_smooth = make_interp_spline(sorted(theta), M)(phi_smooth)
 
         plt.scatter(theta, M, label=f"Кривая {i+1}")
         plt.plot(phi_smooth, M_smooth)
-        plt.errorbar(theta, M, xerr = dT, yerr = dM, ecolor='red', capsize=6)
+        plt.errorbar(theta, M, xerr = dT, yerr = dM, ecolor='red', capsize=3)
+
+        if i < 2:
+            plt.plot(theta, np.array([M[-1]]*len(theta)), label=f"Кривая {i+1}")
 
     plt.title(name)
 
